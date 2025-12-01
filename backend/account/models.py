@@ -74,7 +74,7 @@ class Account(AbstractBaseUser):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name='profile')
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
     bio = models.TextField(blank=True)
     location = models.CharField(max_length=100, blank=True)
@@ -83,7 +83,18 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
     
-
-
+    def posts_count(self):
+        return self.user.posts.count()
     
+    def followers_count(self):
+        return self.user.followers.count()
+    
+    def following_count(self):
+        return self.user.following.count()
+    
+    # reme==ber to create signals to create/update profile when user is created/updated
+    
+     
+    
+
     
